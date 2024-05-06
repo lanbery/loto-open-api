@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
+import { UserService } from 'src/core';
 import { RedisKeyHelper, RedisService } from 'src/core/cache';
 
 @Injectable()
 export class CacheTestService {
-  constructor(private readonly redis: RedisService) {}
+  constructor(
+    private readonly redis: RedisService,
+    private readonly userService: UserService,
+  ) {}
 
   async getCacheKey(subkey: string) {
     const key = RedisKeyHelper.buildBDCwxaiAccessTokenKey(subkey);
@@ -21,5 +25,9 @@ export class CacheTestService {
 
     const ret = await this.redis.setData(key, cache, 900);
     return ret;
+  }
+
+  async findUserById(uid: number) {
+    return this.userService.getUserById(uid);
   }
 }

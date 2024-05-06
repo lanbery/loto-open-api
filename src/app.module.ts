@@ -4,7 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
-import yamlConfiguration, { configValidationSchema } from './config';
+import yamlConfiguration, {
+  TypeormConfigService,
+  configValidationSchema,
+} from './config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiModule } from './api/api.module';
 import { BceModule } from './sdk/bce/bce.module';
 import { WxaiModule } from './sdk/wxai/wxai.module';
@@ -20,6 +24,9 @@ import { WxaiModule } from './sdk/wxai/wxai.module';
         allowUnknow: true,
         abortEarly: true,
       },
+    }),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeormConfigService,
     }),
     CoreModule,
     ApiModule,

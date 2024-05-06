@@ -32,3 +32,17 @@ export interface WxaiAccessToken {
   session_key?: string; // 该参数忽略
   session_secret?: string; // 该参数忽略
 }
+
+export interface WxaiMessageType {
+  role: string;
+  content: string;
+}
+
+export interface WxaiRequestOption extends Record<string, any> {
+  user_id?: string;
+  temperature?: number;
+  top_p?: number;
+  penalty_score?: number;
+  stream?: boolean;
+  system?: string;
+}

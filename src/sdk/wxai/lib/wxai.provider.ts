@@ -1,3 +1,3 @@
-import { WxaiSDKOption } from './interfaces/wxai.interface';
+import { WxaiSDKOptions } from './interfaces/wxai.interface';
 
-export function createWxaiProvider(options: WxaiSDKOption) {}
+export function createWxaiProvider(_options: WxaiSDKOptions) {}

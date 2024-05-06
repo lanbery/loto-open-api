@@ -29,4 +29,10 @@ export class CacheTestController {
     const { appid } = dto;
     return this.service.setCacheKey(appid);
   }
+
+  @ApiOperation({ summary: 'Get user by uid test' })
+  @Get('get_user')
+  getUserInfo(@Query() queryDto: { uid: number }) {
+    return this.service.findUserById(queryDto.uid);
+  }
 }
