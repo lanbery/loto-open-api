@@ -1,3 +1,3 @@
 export enum RedisKeyModuleEnum {
-  bdcwx = 'bdcwx',
+  bcewxai = 'bcewxai',
 }

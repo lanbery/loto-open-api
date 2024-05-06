@@ -3,8 +3,8 @@ import { RedisKeyModuleEnum } from './redis-key.enum';
 const Splitor = ':';
 
 export class RedisKeyHelper {
-  static buildBDCwxAccessTokenKey(appId: string): string {
-    return buildRedisKey(RedisKeyModuleEnum.bdcwx, 'token', appId);
+  static buildBDCwxaiAccessTokenKey(appId: string): string {
+    return buildRedisKey(RedisKeyModuleEnum.bcewxai, 'token', appId);
   }
 }
 

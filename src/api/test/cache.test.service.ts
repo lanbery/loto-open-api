@@ -6,12 +6,12 @@ export class CacheTestService {
   constructor(private readonly redis: RedisService) {}
 
   async getCacheKey(subkey: string) {
-    const key = RedisKeyHelper.buildBDCwxAccessTokenKey(subkey);
+    const key = RedisKeyHelper.buildBDCwxaiAccessTokenKey(subkey);
     return this.redis.getData(key);
   }
 
   async setCacheKey(subkey: string) {
-    const key = RedisKeyHelper.buildBDCwxAccessTokenKey(subkey);
+    const key = RedisKeyHelper.buildBDCwxaiAccessTokenKey(subkey);
     const cache = {
       name: 'wx-main',
       appId: '38991877',

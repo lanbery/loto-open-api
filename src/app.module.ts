@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import yamlConfiguration, { configValidationSchema } from './config';
 import { ApiModule } from './api/api.module';
+import { BceModule } from './sdk/bce/bce.module';
+import { WxaiModule } from './sdk/wxai/wxai.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { ApiModule } from './api/api.module';
     }),
     CoreModule,
     ApiModule,
+    BceModule,
+    WxaiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
