@@ -48,6 +48,10 @@ export class ToolsService {
     return hash;
   }
 
+  async validPassword(password: string, enpassword: string): Promise<boolean> {
+    return await bcrypt.compare(password, enpassword);
+  }
+
   private initRounds() {
     const r = this.configService.get<number>('jwt.encryptRounds', 11);
     this.rounds = r > 5 && r < 15 ? r : 11;

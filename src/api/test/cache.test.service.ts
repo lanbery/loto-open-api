@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/core';
 import { RedisKeyHelper, RedisService } from 'src/core/cache';
+import { ILoginUser } from 'src/core/interface';
 
 @Injectable()
 export class CacheTestService {
@@ -29,5 +30,19 @@ export class CacheTestService {
 
   async findUserById(uid: number) {
     return this.userService.getUserById(uid);
+  }
+
+  async loginWithAccount(dto: ILoginUser): Promise<string | never> {
+    // const token = await this.authService.login(dto);
+
+    // const user: ICurrentUser = await this.authService.validToken(token);
+    // globalThis.console.log(user);
+
+    return dto.account;
+  }
+
+  async validJwtToken(token: string) {
+    // return this.authService.validToken(token);
+    return token;
   }
 }

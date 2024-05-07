@@ -6,6 +6,7 @@ import { configStageKV } from './config.constants';
 
 const envMode = process.env.STAGE || 'prod';
 
+export * from './config.interface';
 export * from './typeorm.config.service';
 export * from './config.constants';
 export * from './config.schema';

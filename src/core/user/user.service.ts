@@ -6,7 +6,7 @@ import { AccountTypeEnum } from '../enums';
 import { BizCodeEnum, BizException } from 'src/exception';
 import { isPhone } from '../utils';
 import { isEmail } from 'class-validator';
-import { UserInfoType } from '../interface';
+import { ICurrentUser, UserInfoType } from '../interface';
 
 @Injectable()
 export class UserService {
@@ -204,6 +204,44 @@ export class UserService {
       createdBy,
       updatedAt,
       updatedBy,
+    };
+
+    return user;
+  }
+
+  static convertEntityToICurrentUser(
+    entity: UserEntity,
+    roles?: Array<string>,
+  ): ICurrentUser {
+    if (!entity) throw new Error(`Parameter entity illegal.`);
+    const {
+      id,
+      username,
+      mobile,
+      email,
+      openid,
+      status,
+      platform,
+      isSuper,
+      type,
+      avatar,
+      profile: { name, nickname },
+    } = entity;
+
+    const user: ICurrentUser = {
+      id,
+      username,
+      mobile,
+      email,
+      openid,
+      status,
+      platform,
+      isSuper,
+      type,
+      avatar,
+      name,
+      nickname,
+      roles,
     };
 
     return user;

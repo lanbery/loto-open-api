@@ -12,6 +12,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApiModule } from './api/api.module';
 import { BceModule } from './sdk/bce/bce.module';
 import { WxaiModule } from './sdk/wxai/wxai.module';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtGuard } from './guards/jwt.guard';
+import { JwtStrategy } from './auth';
 
 @Module({
   imports: [
@@ -28,12 +32,20 @@ import { WxaiModule } from './sdk/wxai/wxai.module';
     TypeOrmModule.forRootAsync({
       useClass: TypeormConfigService,
     }),
+    AuthModule,
     CoreModule,
     ApiModule,
     BceModule,
     WxaiModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtGuard,
+    },
+    JwtStrategy,
+  ],
 })
 export class AppModule {}

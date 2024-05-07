@@ -123,6 +123,13 @@ export class RedisService implements OnModuleDestroy {
     return oldData;
   }
 
+  async hasKey(key: string, safity?: boolean) {
+    const b = await this.redis.exists(key);
+    if (!safity) return !!b;
+    const v = await this.redis.get(key);
+    return v && !!b;
+  }
+
   /**
    * 获取剩余过期时间(秒)
    * -1 代表永不过期
@@ -132,5 +139,9 @@ export class RedisService implements OnModuleDestroy {
    */
   async getExpiredSeconds(key: string): Promise<number> {
     return await this.redis.ttl(key);
+  }
+
+  async setExpires(key: string, ex: number): Promise<boolean | never> {
+    return await this.redis.expire(key, ex);
   }
 }

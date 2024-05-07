@@ -11,6 +11,7 @@ export enum BizCodeEnum {
   UNAUTHORIZED = 401,
   SESSION_INVALID = 401100,
   FORBIDDEN = 403,
+  UNSET_PW_FORBIDDEN = 403401,
   NO_PERMISSION = 403403,
   NotFound = 404,
   UserNotFound = 404100,
