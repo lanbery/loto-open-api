@@ -7,8 +7,10 @@ import { ConfigService } from '@nestjs/config';
 
 import { version, author, name, description } from '../package.json';
 import { isDevMode } from './config';
-import { RequestMethod } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { validationExceptionFactory } from './filters/validators';
+import { HttpExceptionFilter } from './filters';
 
 async function bootstrap() {
   const listeners: Array<LotoAppListener> = [];
@@ -19,13 +21,20 @@ async function bootstrap() {
   const globalApiPrefix = configService.get<string>('app.prefix', 'v3');
   const SWAGERR_ENABLE = isDevMode();
 
-  console.log(configService.get('mysql'));
-
   //允许跨域请求
   app.enableCors();
 
   // Web漏洞的
   app.use(helmet());
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      exceptionFactory: validationExceptionFactory,
+    }),
+  );
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   const docTitle = configService.get<string>('app.name', name);
   if (SWAGERR_ENABLE) {

@@ -15,6 +15,10 @@ export class BizException extends Error {
     if (error) this._error = error;
   }
 
+  set message(message: string) {
+    this.message = message;
+  }
+
   get code(): number {
     return this._code;
   }

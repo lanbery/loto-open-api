@@ -13,9 +13,10 @@ import { ApiModule } from './api/api.module';
 import { BceModule } from './sdk/bce/bce.module';
 import { WxaiModule } from './sdk/wxai/wxai.module';
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtGuard } from './guards/jwt.guard';
 import { JwtStrategy } from './auth';
+import { TransformInterceptor } from './interceptors';
 
 @Module({
   imports: [
@@ -41,6 +42,10 @@ import { JwtStrategy } from './auth';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
+    },
     {
       provide: APP_GUARD,
       useClass: JwtGuard,

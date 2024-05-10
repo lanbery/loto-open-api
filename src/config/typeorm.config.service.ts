@@ -26,12 +26,12 @@ export class TypeormConfigService implements TypeOrmOptionsFactory {
         duration: 60000, // 1分钟的缓存
       },
       extra: {
-        // Mysql8 unspport
-        poolMax: 32,
-        poolMin: 16,
-        queueTimeout: 60000,
-        pollPingInterval: 60, // 每隔60秒连接
-        pollTimeout: 60, // 连接有效60秒
+        // Mysql2 unspport
+        // poolMax: 32,
+        // poolMin: 16,
+        // queueTimeout: 60000,
+        // pollPingInterval: 60, // 每隔60秒连接
+        // pollTimeout: 60, // 连接有效60秒
       },
     };
     // throw new Error('Method not implemented.');

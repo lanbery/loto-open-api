@@ -8,6 +8,6 @@ export class AppService {
 
   health(): string {
     const name = this.config.get<string>('app.name', '');
-    return `Hey gay,I am running...!\n${name} ${formatDateTime()}`;
+    return `${name} ${formatDateTime()}\<br\> Hey gay,I am running...!`;
   }
 }

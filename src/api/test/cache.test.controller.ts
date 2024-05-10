@@ -14,7 +14,6 @@ import { CacheTestService } from './cache.test.service';
 import { ICurrentUser, ILoginUser } from 'src/core/interface';
 import { CurrentUser, PublicApi } from 'src/decorators';
 
-@PublicApi()
 @ApiTags(`${LotoModuleRoutes.mock.name} Cache 缓存`)
 @Controller()
 export class CacheTestController {
@@ -31,6 +30,7 @@ export class CacheTestController {
     return this.service.getCacheKey(appid);
   }
 
+  @PublicApi()
   @Put('set_cache')
   @HttpCode(HttpStatus.OK)
   setMockCache(@Body() dto: { appid: string }) {
