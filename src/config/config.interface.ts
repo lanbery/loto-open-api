@@ -6,3 +6,10 @@ export interface IJwtConfigSchema {
   expirein?: string;
   encryptRounds?: number;
 }
+
+export interface IFanwenConfigSchema {
+  baseURL?: string;
+  grantType: string;
+  clientId: string;
+  clientSecret: string;
+}

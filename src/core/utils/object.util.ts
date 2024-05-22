@@ -1,3 +1,5 @@
+type ObjectType = Record<string, number | string | boolean>;
+
 export const objectKeySorted = (
   obj: Record<string, any>,
 ): Record<string, any> => {
@@ -12,4 +14,12 @@ export const objectKeySorted = (
       },
       {} as { [key: string]: any },
     );
+};
+
+export const mapToObj = (map: Map<string, any>): ObjectType => {
+  const obj: ObjectType = {};
+  for (const [k, v] of map) {
+    obj[k] = v;
+  }
+  return obj;
 };

@@ -29,7 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    */
   async validate(payload: JwtAccessPayload) {
     const { id, iat } = payload;
-    this.logger.log(payload);
+    this.logger.log('jwt validate>>>>', payload);
     const key = AuthHelper.tokenCacheKey(id, iat);
     const tokenUser = await this.redis.getData<ITokenUser>(key);
     if (!tokenUser) throw new ForbiddenException(`Jwt Token invalid.`);

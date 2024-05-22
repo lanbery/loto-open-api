@@ -29,3 +29,38 @@ type JwtAccessPayload = {
   state: string;
 } & IAccessBase &
   Partial<ITokenBase>;
+
+type SystemRegionType = {
+  id: number;
+  pid: number;
+  label: string;
+  value: string;
+  code: string;
+  extra?: Record<string, any>;
+  sortno: number;
+  status: boolean;
+  remark: string;
+};
+
+type SystemRegionExType = SystemRegionType & {
+  level: number;
+};
+
+type RegionTreeType = {
+  id: number;
+  label: string;
+  value: string;
+  code: string;
+  pcode?: string;
+  status?: boolean;
+  sortno: number;
+  extra?: Record<string, any>;
+  children?: Array<RegionTreeType>;
+  isLeaf?: boolean;
+};
+
+type RegionTreeExType = RegionTreeType & {
+  pid: number;
+  oid: number;
+  opid: number;
+};
