@@ -29,10 +29,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
    */
   async validate(payload: JwtAccessPayload) {
     const { id, iat } = payload;
-    this.logger.log('jwt validate>>>>', payload);
     const key = AuthHelper.tokenCacheKey(id, iat);
     const tokenUser = await this.redis.getData<ITokenUser>(key);
-    if (!tokenUser) throw new ForbiddenException(`Jwt Token invalid.`);
+
+    // TODO DB check
+    const mode = this.config.get<string>('server.mode', 'prod');
+    if (!tokenUser && 'locale' !== mode)
+      throw new ForbiddenException(`Token invalid.`);
     const { token, ...others } = tokenUser;
     const user: ICurrentUser = { ...others };
     await this.extendExpireIn(key);

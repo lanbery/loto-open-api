@@ -18,7 +18,7 @@ export class TypeormConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get<string>('mysql.username'),
       password: this.configService.get<string>('mysql.password'),
       logging: this.configService.get<boolean>('mysql.logging', false),
-      synchronize: false,
+      synchronize: true,
       autoLoadEntities: true,
       entities: [__dirname + '/**/*.entity.{ts,js}'],
       timezone: '+08:00', // 东八区

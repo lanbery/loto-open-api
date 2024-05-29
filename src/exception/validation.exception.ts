@@ -9,10 +9,10 @@ import { iterate } from 'iterare';
 
 export class ValidationException extends HttpException {
   constructor(validErrors: ValidationError[], options?: HttpExceptionOptions) {
-    const { description, httpExceptionOptions } =
+    const { description: _d, httpExceptionOptions } =
       HttpException.extractDescriptionAndOptionsFrom(options);
 
-    globalThis.console.log(description);
+    // globalThis.console.log(description);
 
     const errors = flattenValidationErrors(validErrors);
     const body: LotoResponseType = {

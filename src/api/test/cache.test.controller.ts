@@ -23,9 +23,8 @@ export class CacheTestController {
   @Get('get_by_key')
   getCacheByKey(
     @Query() queryDto: { appid: string },
-    @CurrentUser() u: ICurrentUser,
+    @CurrentUser() _u: ICurrentUser,
   ) {
-    globalThis.console.log('>>p-u>>', u);
     const { appid } = queryDto;
     return this.service.getCacheKey(appid);
   }
@@ -41,10 +40,9 @@ export class CacheTestController {
   @ApiOperation({ summary: 'Get user by uid test' })
   @Get('get_user')
   getUserInfo(
-    @CurrentUser() user: ICurrentUser,
+    @CurrentUser() _user: ICurrentUser,
     @Query() queryDto: { uid: number },
   ) {
-    globalThis.console.log('>u>>', user);
     return this.service.findUserById(queryDto.uid);
   }
   @ApiOperation({ summary: 'login with account & password test' })

@@ -3,12 +3,20 @@ import { RedisService } from './cache/redis/redis.service';
 import { RedisFactory } from './cache/redis/redis-client.factory';
 import { UserService } from './user/user.service';
 import {
+  DictManagementService,
+  DictOptionsService,
   RegionConvertService,
   RegionService,
   ToolsService,
 } from './export.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SystemRegionEntity, UserEntity, UserProfileEntity } from './entities';
+import {
+  SysDictEntity,
+  SysDictItemEntity,
+  SystemRegionEntity,
+  UserEntity,
+  UserProfileEntity,
+} from './entities';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Agent } from 'https';
@@ -19,6 +27,8 @@ import { Agent } from 'https';
     TypeOrmModule.forFeature([
       UserEntity,
       UserProfileEntity,
+      SysDictEntity,
+      SysDictItemEntity,
       SystemRegionEntity,
     ]),
     HttpModule.registerAsync({
@@ -39,6 +49,8 @@ import { Agent } from 'https';
     }),
   ],
   providers: [
+    DictManagementService,
+    DictOptionsService,
     RedisFactory,
     RedisService,
     ToolsService,
@@ -47,6 +59,8 @@ import { Agent } from 'https';
     RegionConvertService,
   ],
   exports: [
+    DictManagementService,
+    DictOptionsService,
     HttpModule,
     RedisService,
     ToolsService,

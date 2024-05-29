@@ -134,6 +134,59 @@ export class FanwenAPIClientFactory {
     }
   }
 
+  async post<T = any>(
+    url: string,
+    data?: Record<string, any> | any[],
+  ): Promise<T | never> {
+    const token = await this.connectToken();
+    const { access_token } = token;
+
+    const options = {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    };
+
+    const fetchResp = await this.http.post(url, data ?? null, {
+      ...options,
+    });
+
+    try {
+      const { data: respData } = await lastValueFrom(
+        fetchResp.pipe(
+          catchError((error) => {
+            this.logger.error(`Url: ${url}`, error);
+            throw error;
+          }),
+        ),
+      );
+      if (!respData) {
+        throw BizException.createError(
+          BizCodeEnum.API_SERVER_CALL_FAIL,
+          `接口未返回有效数据`,
+        );
+      }
+      const { succeed, code, msg, data } =
+        respData as unknown as IFanwenAPIResponse<T>;
+
+      if (!succeed || code !== 0) {
+        this.logger.warn(`凡闻API [${url}] 调用返回数据不正确.${code}-${msg}`);
+        throw BizException.createError(
+          BizCodeEnum.API_SERVER_CALL_FAIL,
+          `凡闻API [${url}] 调用返回数据不正确.${code}-${msg}`,
+        );
+      }
+
+      return data as unknown as T;
+    } catch (error: any) {
+      this.logger.error(`API [${url}] call fail. ${error?.message}`);
+      throw BizException.createError(
+        BizCodeEnum.API_SERVER_CALL_FAIL,
+        error?.message ?? '凡闻API 调用失败',
+      );
+    }
+  }
+
   async connectToken(): Promise<IFanwenToken | never> {
     const token = await this.getCacheToken();
     if (token) return token;
@@ -190,7 +243,7 @@ export class FanwenAPIClientFactory {
     return `${this.tokenBaseUrl}/connect/token`;
   }
 
-  articleSearchUrl(): string {
+  articleSearchAdvancedUrl(): string {
     const { baseURL } = this.validOptions();
     return `${baseURL}/${FW_SUB_PATH}/getadvanced`;
   }

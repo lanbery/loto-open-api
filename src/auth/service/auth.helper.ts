@@ -57,6 +57,29 @@ export class AuthHelper {
     return token;
   }
 
+  /**
+   *
+   * @param user
+   * @param token
+   * @param payload
+   * @returns
+   */
+  async renewToken(
+    user: ICurrentUser,
+    token: string,
+    payload: JwtAccessPayload,
+  ): Promise<ITokenUser> {
+    const key = AuthHelper.tokenCacheKey(user.id, payload.iat ?? 0);
+    const tokenCache: ITokenUser = {
+      ...user,
+      token,
+    };
+    const duration = this.exSeconds;
+    await this.redis.setData(key, tokenCache, duration);
+
+    return tokenCache;
+  }
+
   async removeAccessToken(token: string) {
     const { id, iat } = await this.decryptToken(token);
     const key = AuthHelper.tokenCacheKey(id, iat);
@@ -71,12 +94,11 @@ export class AuthHelper {
         secret: this.jwtOptions.secretKey,
         ignoreExpiration: true,
       });
-      globalThis.console.log('valid', valid);
       return valid;
     } catch (e: any) {
       throw BizException.createError(
         BizCodeEnum.FORBIDDEN,
-        e?.message ?? 'JWT token invalid.',
+        e?.message ?? 'token invalid.',
       );
     }
   }

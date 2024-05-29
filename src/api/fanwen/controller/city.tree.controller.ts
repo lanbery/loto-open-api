@@ -11,20 +11,19 @@ export class CityTreeController {
 
   @PublicApi()
   @ApiOperation({
+    summary: '获取Fanwen Token',
+  })
+  @Put('connect')
+  connectFanwenAPI() {
+    return this.fanwenAPI.connectToken();
+  }
+
+  @ApiOperation({
     summary: '同步城市树',
   })
   @Get('sync_tree')
   syncCityTree() {
     return this.fanwenAPI.getCitytree();
-  }
-
-  @PublicApi()
-  @ApiOperation({
-    summary: '同步城市树',
-  })
-  @Put('connect')
-  connectFanwenAPI() {
-    return this.fanwenAPI.connectToken();
   }
 
   @ApiOperation({ summary: '根据缓存更新' })

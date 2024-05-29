@@ -64,3 +64,12 @@ type RegionTreeExType = RegionTreeType & {
   oid: number;
   opid: number;
 };
+
+interface SelectorOptionType<T = string | number> {
+  label: string;
+  value: T;
+  disabled?: boolean;
+  actived?: boolean;
+  icon?: string;
+  extra?: Record<string, any>;
+}

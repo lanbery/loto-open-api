@@ -23,3 +23,12 @@ export interface SyncCityTreeState {
   affected: number;
   left: Array<IfwCityTree>;
 }
+
+export type SearcherPeriodType =
+  | 'all'
+  | 'week'
+  | 'month'
+  | 'twoMonth'
+  | 'season'
+  | 'sixMonth'
+  | 'year';

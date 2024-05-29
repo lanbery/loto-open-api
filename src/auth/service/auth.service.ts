@@ -38,6 +38,24 @@ export class AuthService {
     return token;
   }
 
+  /**
+   * TODO unimplement
+   * @param payload
+   */
+  async renewUserToken(payload: JwtAccessPayload) {
+    const { id, username } = payload;
+    const entity = await this.userService.getUserById(id);
+    if (!entity) throw new ForbiddenException(`Account ${username} not found.`);
+
+    if (entity.status === StatusEnum.FORBIDDEN.valueOf())
+      throw new ForbiddenException(`账号被禁用`);
+
+    const user: ICurrentUser = UserService.convertEntityToICurrentUser(entity);
+
+    // token where get
+    await this.authHelper.renewToken(user, '', payload);
+  }
+
   async logout(token: string): Promise<boolean> {
     try {
       await this.authHelper.removeAccessToken(token);
