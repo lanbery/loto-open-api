@@ -1,7 +1,7 @@
 import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { AuthHelper } from './auth.helper';
 import { ToolsService, UserService } from 'src/core';
-import { ICurrentUser, ILoginUser } from 'src/core/interface';
+import { ICurrentUser, ILoginUser, ITokenUser } from 'src/core/interface';
 import { AccountTypeEnum, StatusEnum } from 'src/core/enums';
 import { BizCodeEnum, BizException } from 'src/exception';
 
@@ -42,7 +42,7 @@ export class AuthService {
    * TODO unimplement
    * @param payload
    */
-  async renewUserToken(payload: JwtAccessPayload) {
+  async renewUserToken(payload: JwtAccessPayload): Promise<ITokenUser | never> {
     const { id, username } = payload;
     const entity = await this.userService.getUserById(id);
     if (!entity) throw new ForbiddenException(`Account ${username} not found.`);
@@ -53,7 +53,7 @@ export class AuthService {
     const user: ICurrentUser = UserService.convertEntityToICurrentUser(entity);
 
     // token where get
-    await this.authHelper.renewToken(user, '', payload);
+    return await this.authHelper.renewToken(user, '', payload);
   }
 
   async logout(token: string): Promise<boolean> {

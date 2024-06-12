@@ -6,6 +6,7 @@ import { WxchatController } from './wxchat/wxchat.controller';
 import { WxchatService } from './wxchat/wxchat.service';
 import { CommModule } from './comm/comm.module';
 import { FanwenModule } from './fanwen/fanwen.module';
+import { SmartCreationModule } from './smart-creation/smart-creation.module';
 
 @Module({
   imports: [
@@ -27,9 +28,16 @@ import { FanwenModule } from './fanwen/fanwen.module';
         module: FanwenModule,
       },
     ]),
+    RouterModule.register([
+      {
+        path: LotoModuleRoutes.pc.modulePath,
+        module: SmartCreationModule,
+      },
+    ]),
     CommModule,
     MockModule,
     FanwenModule,
+    SmartCreationModule,
   ],
   controllers: [WxchatController],
   providers: [WxchatService],

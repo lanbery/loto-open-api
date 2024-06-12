@@ -19,4 +19,9 @@ export const LotoModuleRoutes: Record<string, LotoModuleRouteType> = {
     modulePath: 't',
     desc: '测试模块,只有在STAGE= dev 模式下可以调用',
   },
+  pc: {
+    name: 'PC端',
+    modulePath: 'pc',
+    desc: 'PC端业务模块接口',
+  },
 };

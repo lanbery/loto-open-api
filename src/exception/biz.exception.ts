@@ -1,3 +1,4 @@
+import { BizCodeEnum } from './biz.code.enum';
 import { BizMessages } from './biz.message';
 
 export class BizException extends Error {
@@ -48,5 +49,20 @@ export class BizException extends Error {
     if (!localeMessage) localeMessage = String(code.valueOf());
 
     return new BizException(c, message, options);
+  }
+
+  static IllegalParamterError(message?: string, options?: BizErrorOptionType) {
+    const { locale = 'enUS' } = options || {};
+
+    let localeMessage;
+    const code = BizCodeEnum.ILLEGAL_ARGS;
+    const messages: Record<number, string> = BizMessages(locale);
+    if (message?.length) {
+      localeMessage = message;
+    } else {
+      localeMessage = messages[code.valueOf()] ?? code.valueOf().toString();
+    }
+
+    return new BizException(code, localeMessage);
   }
 }

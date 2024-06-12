@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -6,6 +6,7 @@ import { RedisService } from 'src/core/cache';
 import { AuthHelper } from '../service/auth.helper';
 import { ICurrentUser, ITokenUser } from 'src/core/interface';
 import { convertDiffToSeconds } from 'src/core/utils';
+import { AuthService } from '../service/auth.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,6 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly config: ConfigService,
     private readonly redis: RedisService,
+    private readonly authService: AuthService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -30,12 +32,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtAccessPayload) {
     const { id, iat } = payload;
     const key = AuthHelper.tokenCacheKey(id, iat);
-    const tokenUser = await this.redis.getData<ITokenUser>(key);
+    let tokenUser = await this.redis.getData<ITokenUser>(key);
+
+    const mode = this.config.get<string>('server.mode', 'prod');
+    if (!tokenUser && 'locale' !== mode) {
+      tokenUser = await this.authService.renewUserToken(payload);
+    }
 
     // TODO DB check
-    const mode = this.config.get<string>('server.mode', 'prod');
-    if (!tokenUser && 'locale' !== mode)
-      throw new ForbiddenException(`Token invalid.`);
     const { token, ...others } = tokenUser;
     const user: ICurrentUser = { ...others };
     await this.extendExpireIn(key);
