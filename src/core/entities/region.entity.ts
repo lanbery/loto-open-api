@@ -1,6 +1,7 @@
 import { Column, Entity } from 'typeorm';
 import { CommonEntity } from '.';
 import { Transform, Type } from 'class-transformer';
+import { StatusEnum } from '../enums';
 
 @Entity({
   name: 'sys_region',
@@ -66,8 +67,6 @@ export class SystemRegionEntity extends CommonEntity {
   @Transform(({ value }) => Number(value))
   sortno: number;
 
-  @Type(() => Boolean)
-  @Transform(({ value }) => Boolean(value))
   @Column({
     type: 'tinyint',
     nullable: true,
@@ -75,7 +74,7 @@ export class SystemRegionEntity extends CommonEntity {
     default: '1',
     comment: 'Region status',
   })
-  status: boolean;
+  status: StatusEnum;
 
   @Column({
     type: 'longtext',

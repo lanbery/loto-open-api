@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { SystemRegionEntity } from '../entities';
 import { Repository } from 'typeorm';
 import { mapToObj } from '../utils';
+import { StatusEnum } from '../enums';
 
 @Injectable()
 export class RegionService {
@@ -59,7 +60,7 @@ export class RegionService {
             code: code ?? '',
             value: value ?? '',
             sortno,
-            status: status,
+            status: status === StatusEnum.NORMAL,
             extra: {},
           };
           if (extra && extra.length) {

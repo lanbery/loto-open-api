@@ -11,6 +11,13 @@ import { SysDictEntity } from './dict.entity';
 export class SysDictItemEntity extends CommonEntity {
   @ManyToOne(() => SysDictEntity, (dict) => dict.items)
   @JoinColumn({ name: 'dict_id' })
+  // @Type(() => Number)
+  // @Column({
+  //   name: 'dict_id',
+  //   type: 'int',
+  //   nullable: false,
+  //   comment: '字典ID',
+  // })
   dict: SysDictEntity;
 
   @Column({

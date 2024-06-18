@@ -18,13 +18,15 @@ export class DictOptionsService {
   ) {}
 
   async getDictSelectOptionsByCode(code: string) {
-    const entity = await this.dictManagement.getDictByCode(code);
-    if (!entity || !entity.items?.length) return [];
+    const items = await this.dictManagement.getDictItemsByCode(code);
+    if (!items?.length) return [];
 
-    return entity.items
-      .sort((a, b) => compareSortnoASC(Number(a.sortno), Number(b.sortno)))
-      .filter((v) => v.status !== StatusEnum.FORBIDDEN)
-      .map((it) => DictOptionsService.convertDictItemToSelectorOption(it));
+    return (
+      items
+        .sort((a, b) => compareSortnoASC(Number(a.sortno), Number(b.sortno)))
+        // .filter((v) => v.status === StatusEnum.FORBIDDEN)
+        .map((it) => DictOptionsService.convertDictItemToSelectorOption(it))
+    );
   }
 
   async getDictSelectOptionsById(id: number) {
