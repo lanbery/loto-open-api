@@ -11,6 +11,7 @@ import { ConfigService } from '@nestjs/config';
 import { FsHelper } from '../helper';
 import { formatDateTime, mapToObj } from '../utils';
 import { IfwCityTree, SyncCityTreeState } from 'src/api/fanwen/interface';
+import { StatusEnum } from '../enums';
 
 @Injectable()
 export class RegionConvertService {
@@ -312,7 +313,7 @@ export class RegionConvertService {
               code: code ?? '',
               value: value ?? '',
               sortno,
-              status: status,
+              status: status === StatusEnum.NORMAL,
               extra: {},
             };
             if (extra && extra.length) {
